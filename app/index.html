@@ -1,0 +1,169 @@
+<!doctype html>
+<html class="no-js" lang="">
+  <head>
+    <meta charset="utf-8">
+    <title>bbreaker</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+    <!-- build:js scripts/vendor/modernizr.js -->
+    <script src="/bower_components/modernizr/modernizr.js"></script>
+    <script src="scripts/jquery.js"></script>
+    <!-- endbuild -->
+
+  </head>
+  <style type="text/css">
+
+      #field {
+        position: relative;
+        height: 300px;
+        background-color: lightgreen;
+      }
+      #ball, #ball2 {
+        position: absolute;
+        left: 0;
+        bottom: 50%;
+        width: 1em;
+        height: 1em;
+        border-radius: 0.5em;
+      }
+      #ball { background: red; }
+      #ball2 { background: blue; }
+
+    </style>
+    <script type="text/javascript">
+
+  // Original JavaScript code by Chirp Internet: www.chirp.com.au
+  // Please acknowledge use of this code by including this header.
+$(document).ready(function() {
+  window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+  var field = document.getElementById("field");
+  var ball = document.getElementById("ball");
+
+  var maxX = field.clientWidth - ball.offsetWidth;
+  var maxY = field.clientHeight - ball.offsetHeight;
+  var duration = 4.5; // seconds
+  var gridSize = 100; // pixels
+  // x=1500;
+  // y = 2 * Math.sin(x); // y = ƒ(x)
+  // ball.style.left = Math.min(maxX, gridSize * x) + "px";
+  // ball.style.bottom = maxY/2 + (gridSize * y) + "px";
+ var start = null;
+
+  function step(timestamp)
+  {
+    var progress, x, y, y2;
+    if(start === null) start = timestamp;
+
+    progress = (timestamp - start) / duration / 1000; // percent
+    console.log(ball.offsetTop);
+    x = progress * maxX/gridSize; // x = ƒ(t)
+    y = 2 * Math.sin(x); // y = ƒ(x)
+    y2 = 2 * Math.cos(x);
+
+    ball.style.left = Math.min(maxX, gridSize * x) + "px";
+    ball.style.bottom = maxY/2 + (gridSize * y) + "px";
+
+    if(progress >= 1|| ball.offsetTop>=300) start = null; // reset to start position
+    window.requestAnimationFrame(step);
+  }
+
+ window.requestAnimationFrame(step);
+})
+</script>
+  <body>
+    <!--[if lt IE 10]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+
+    <div class="container">
+      <div class="header">
+        <ul class="nav nav-pills pull-right">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+        <h3 class="text-muted">bbreaker</h3>
+      </div>
+
+      <div class="jumbotron">
+          <div id="field">
+              <div id="ball"></div>
+          </div>
+      </div>
+
+      <div class="row marketing">
+        <div class="col-lg-6">
+          <h4><a href="https://html5boilerplate.com/">HTML5 Boilerplate</a></h4>
+          <p>HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.</p>
+
+          <h4><a href="http://libsass.org/">Sass</a></h4>
+          <p>Sass is a mature, stable, and powerful professional grade CSS extension language.</p>
+
+
+          <h4><a href="http://getbootstrap.com/">Bootstrap</a></h4>
+          <p>Sleek, intuitive, and powerful mobile first front-end framework for faster and easier web development.</p>
+
+          <h4><a href="http://modernizr.com/">Modernizr</a></h4>
+          <p>Modernizr is an open-source JavaScript library that helps you build the next generation of HTML5 and CSS3-powered websites.</p>
+
+        </div>
+      </div>
+
+      <div class="footer">
+        <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
+      </div>
+    </div>
+
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+
+    <!-- build:js(.) scripts/plugins.js -->
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/affix.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/alert.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/modal.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/transition.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/button.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/popover.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/carousel.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/collapse.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tab.js"></script>
+    <!-- endbuild -->
+
+
+    <!-- build:js scripts/main.js -->
+    <script src="scripts/main.js"></script>
+    <!-- endbuild -->
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <script>
+      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+      e.src='https://www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+      ga('create','UA-XXXXX-X');ga('send','pageview');
+    </script>
+  </body>
+</html>
