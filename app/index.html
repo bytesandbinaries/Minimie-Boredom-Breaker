@@ -38,8 +38,17 @@
         height: 1em;
         border-radius: 0.5em;
       }
-      #ball { background: red; }
-      #ball2 { background: blue; }
+      #ball {background: red;}
+      #ball2 {background: blue;}
+      #playa{
+          position:absolute;
+          left:100px;
+          top:70%;
+          background-color: #a3a;
+          width: 2em;
+          height: 4em;
+          cursor:move;
+      }
 
     </style>
     <script type="text/javascript">
@@ -68,7 +77,7 @@ $(document).ready(function() {
     if(start === null) start = timestamp;
 
     progress = (timestamp - start) / duration / 1000; // percent
-    console.log(ball.offsetTop);
+    //console.log(ball.offsetTop);
     x = progress * maxX/gridSize; // x = ƒ(t)
     y = 2 * Math.sin(x); // y = ƒ(x)
     y2 = 2 * Math.cos(x);
@@ -79,7 +88,35 @@ $(document).ready(function() {
     if(progress >= 1|| ball.offsetTop>=300) start = null; // reset to start position
     window.requestAnimationFrame(step);
   }
-
+  $.fn.slider = function() {
+    return this.each(function() {
+        var $el = $(this);
+        $el.css('Left', '100px');
+        var dragging = false;
+        var startY = 0;
+        var startT = 0;
+        $el.mousedown(function(ev) {
+            dragging = true;
+            startY = ev.clientX;
+            startT = $el.css('left');
+        });
+        $(window).mousemove(function(ev) {
+            if (dragging) {
+                // calculate new Left
+                var newLeft = parseInt(startT) + (ev.clientX - startY);
+                console.log(newLeft)
+                //stay in parent
+                 var maxLeft =  $el.parent().width()-$el.width()-20;
+                 console.log(maxLeft);
+                 newLeft = newLeft<100?100:newLeft>maxLeft?maxLeft:newLeft;
+                $el.css('left', newLeft );
+            }
+        }).mouseup(function() {
+            dragging = false;
+        });
+    })
+}
+ $('#playa').slider();
  window.requestAnimationFrame(step);
 })
 </script>
@@ -102,6 +139,7 @@ $(document).ready(function() {
       <div class="jumbotron">
           <div id="field">
               <div id="ball"></div>
+              <div id="playa"></div>
           </div>
       </div>
 
