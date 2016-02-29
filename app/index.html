@@ -64,7 +64,7 @@ $(document).ready(function() {
   var maxX = field.clientWidth - ball.offsetWidth;
   var maxY = field.clientHeight - ball.offsetHeight;
   var duration = 4.5; // seconds
-  var gridSize = 100; // pixels
+  var gridSize;
   // x=1500;
   // y = 2 * Math.sin(x); // y = ƒ(x)
   // ball.style.left = Math.min(maxX, gridSize * x) + "px";
@@ -74,18 +74,18 @@ $(document).ready(function() {
   function step(timestamp)
   {
     var progress, x, y, y2;
-    if(start === null) start = timestamp;
+    if(start === null) {start = timestamp; gridSize  = Math.floor(Math.random() * 120) + 50; }// pixels
 
     progress = (timestamp - start) / duration / 1000; // percent
     //console.log(ball.offsetTop);
     x = progress * maxX/gridSize; // x = ƒ(t)
-    y = 2 * Math.sin(x); // y = ƒ(x)
+    y = 1.8 * Math.sin(x); // y = ƒ(x)
     y2 = 2 * Math.cos(x);
 
     ball.style.left = Math.min(maxX, gridSize * x) + "px";
     ball.style.bottom = maxY/2 + (gridSize * y) + "px";
 
-    if(progress >= 1|| ball.offsetTop>=300) start = null; // reset to start position
+    if(progress >= 1|| ball.offsetTop>=250) start = null; // reset to start position
     window.requestAnimationFrame(step);
   }
   $.fn.slider = function() {
