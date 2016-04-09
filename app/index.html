@@ -49,6 +49,11 @@
           height: 4em;
           cursor:move;
       }
+      #scoreContainer{
+          position:absolute;
+          top:10px;
+          right:15px;
+      }
 
     </style>
     <script type="text/javascript">
@@ -60,7 +65,9 @@ $(document).ready(function() {
 
   var field = document.getElementById("field");
   var ball = document.getElementById("ball");
-
+  var playa = document.getElementById("playa");
+  var score = document.getElementById("score");
+  var userscore=0;
   var maxX = field.clientWidth - ball.offsetWidth;
   var maxY = field.clientHeight - ball.offsetHeight;
   var duration = 4.5; // seconds
@@ -71,20 +78,39 @@ $(document).ready(function() {
   // ball.style.bottom = maxY/2 + (gridSize * y) + "px";
  var start = null;
 
-  function step(timestamp)
-  {
+  function step(timestamp){
     var progress, x, y, y2;
-    if(start === null) {start = timestamp; gridSize  = Math.floor(Math.random() * 120) + 50; }// pixels
+    if(start === null) {
+        start = timestamp;
+        // choosing a random place where the ball will land within certain boundaries
+        gridSize  = Math.floor(Math.random() * 120) + 50;
+        //gridSize=100;
+    }
 
-    progress = (timestamp - start) / duration / 1000; // percent
+    progress = (timestamp - start) / duration / 1000; // getting the
     //console.log(ball.offsetTop);
     x = progress * maxX/gridSize; // x = ƒ(t)
+    //calculating the projectile angle the ball is gonna be shot through.
     y = 1.8 * Math.sin(x); // y = ƒ(x)
     y2 = 2 * Math.cos(x);
 
-    ball.style.left = Math.min(maxX, gridSize * x) + "px";
+    //setting new position of the ball
+    var ballPosition= Math.min(maxX, gridSize * x)
+    ball.style.left = ballPosition  + "px";
+    //console.log(ball.offsetTop)
+    var playaPosition= playa.style.left;
+    playaPosition = playaPosition.replace("px", "");
+
+    if((ballPosition >= playaPosition-2) && (ballPosition <= parseInt(playaPosition)+12) && ball.offsetTop>215 ){
+        userscore++;
+        score.innerHTML=userscore;
+        start = null;
+        window.requestAnimationFrame(step);
+        //console.log('hit');
+    }
     ball.style.bottom = maxY/2 + (gridSize * y) + "px";
 
+    //restarting the position of the ball when it has landed
     if(progress >= 1|| ball.offsetTop>=250) start = null; // reset to start position
     window.requestAnimationFrame(step);
   }
@@ -104,10 +130,10 @@ $(document).ready(function() {
             if (dragging) {
                 // calculate new Left
                 var newLeft = parseInt(startT) + (ev.clientX - startY);
-                console.log(newLeft)
+                //console.log(newLeft)
                 //stay in parent
                  var maxLeft =  $el.parent().width()-$el.width()-20;
-                 console.log(maxLeft);
+                 //console.log(maxLeft);
                  newLeft = newLeft<100?100:newLeft>maxLeft?maxLeft:newLeft;
                 $el.css('left', newLeft );
             }
@@ -140,6 +166,7 @@ $(document).ready(function() {
           <div id="field">
               <div id="ball"></div>
               <div id="playa"></div>
+              <div id="scoreContainer"><span>Current Score :</span><span id="score"></span>
           </div>
       </div>
 
